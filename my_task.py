@@ -138,6 +138,7 @@ class Sensor_Task:
         while counter > 0 and self.isSensorActive:
             temp = temp + int(self.Sensor_Execute(ser, "temp"))
             counter = counter - 1
+            time.sleep(1)
         if self.isSensorActive == False:
             return self.isSensorActive
         print("Temperature is:", temp/10)
@@ -147,6 +148,7 @@ class Sensor_Task:
         while counter > 0 and self.isSensorActive:
             humid = humid + int(self.Sensor_Execute(ser, "humid"))
             counter = counter - 1
+            time.sleep(1)
         if self.isSensorActive == False:
             return self.isSensorActive
         print("Humidity is:", humid/10)
