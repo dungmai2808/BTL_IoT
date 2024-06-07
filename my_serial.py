@@ -16,7 +16,6 @@ def getPort():
 
 
 def serial_read_data(ser):
-    print(ser)
     bytesToRead = ser.inWaiting()
     if bytesToRead > 0:
         out = ser.read(bytesToRead)
@@ -25,8 +24,6 @@ def serial_read_data(ser):
         if len(data_array) >= 7:
             array_size = len(data_array)
             value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
-            print(value)
             return value
         else:
-            print(-1)
             return -1

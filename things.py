@@ -1,6 +1,7 @@
 from math import ceil
 from crc import *
 from my_serial import *
+import time
 
 
 class Relay:
@@ -17,10 +18,12 @@ class Relay:
         print("Data for relay {} off is: {}".format(self.id, self.relay_OFF))
 
     def turnRelayOn(self, ser):
+        serial_read_data(ser)
         ser.write(self.relay_ON)
         print("On: {}".format(self.relay_ON))
 
     def turnRelayOff(self, ser):
+        serial_read_data(ser)
         ser.write(self.relay_OFF)
         print("Off: {}".format(self.relay_OFF))
 
@@ -67,12 +70,18 @@ class Sensor:
         print("Data for humid sensor {} is: {}".format(self.id, self.soil_humid))
 
     def getTemp(self, ser):
+        serial_read_data(ser)
         ser.write(self.soil_temp)
         print(self.soil_temp)
+        time.sleep(1)
+        return serial_read_data(ser)
 
     def getHumid(self, ser):
+        serial_read_data(ser)
         ser.write(self.soil_humid)
         print(self.soil_humid)
+        time.sleep(1)
+        return serial_read_data(ser)
 
 # try:
 #     ser = serial.Serial(port=getPort(), baudrate=9600)

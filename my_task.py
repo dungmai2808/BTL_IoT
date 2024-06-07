@@ -100,11 +100,10 @@ class Sensor_Task:
 
     def Sensor_Execute(self, ser, type):
         if(type == "temp"):
-            self.sensor.getTemp(ser)
             time_slot = 5
             # if data has error, resend after 1s. After 5 times, notice error to user
             while time_slot > 0:
-                data = serial_read_data(ser) / 100
+                data = self.sensor.getTemp(ser) / 100
                 if data >= 0 and data <= 100:
                     return data
                 time.sleep(1)
@@ -115,11 +114,10 @@ class Sensor_Task:
                 return 0
             
         elif(type == "humid"):
-            self.sensor.getHumid(ser)
             time_slot = 5
             # if data has error, resend after 1s. After 5 times, notice error to user
             while time_slot > 0:
-                data = serial_read_data(ser) / 100
+                data = self.sensor.getHumid(ser) / 100
                 if data >= 0 and data <= 100:
                     return data
                 time.sleep(1)
