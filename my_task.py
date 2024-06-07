@@ -105,7 +105,7 @@ class Sensor_Task:
             # if data has error, resend after 1s. After 5 times, notice error to user
             while time_slot > 0:
                 data = serial_read_data(ser) / 100
-                if data >= 0 and data <= 50:
+                if data >= 0 and data <= 100:
                     return data
                 time.sleep(1)
                 time_slot = time_slot - 1
