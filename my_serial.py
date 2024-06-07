@@ -27,3 +27,5 @@ def serial_read_data(ser):
             return value
         else:
             return -1
+    else:
+        return -1
