@@ -16,6 +16,7 @@ def getPort():
 
 
 def serial_read_data(ser):
+    print("waiting data...")
     bytesToRead = ser.inWaiting()
     if bytesToRead > 0:
         out = ser.read(bytesToRead)
