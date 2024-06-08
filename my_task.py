@@ -37,7 +37,7 @@ class Relay_Task:
         time_slot = 5
         # if data has error, resend after 1s. After 5 times, notice error to user
         while time_slot > 0:
-            data = relay.turnRelayOn(ser)
+            data = relay.turnRelayOff(ser)
             print("Data is", data)
             if data == 0:
                 break
