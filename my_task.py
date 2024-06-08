@@ -19,8 +19,12 @@ class Relay_Task:
         if timer == 0:
             return
         time_slot = 5
+        
         # if data has error, resend after 1s. After 5 times, notice error to user
-        while (time_slot > 0) and (relay.turnRelayOn(ser) != 255):
+        while time_slot > 0:
+            data = relay.turnRelayOn(ser)
+            if data == 255:
+                break
             time.sleep(1)
             time_slot = time_slot - 1
         if time_slot == 0:
@@ -31,7 +35,10 @@ class Relay_Task:
 
         time_slot = 5
         # if data has error, resend after 1s. After 5 times, notice error to user
-        while (time_slot > 0) and (relay.turnRelayOff(ser) != 0):
+        while time_slot > 0:
+            data = relay.turnRelayOn(ser)
+            if data == 0:
+                break
             time.sleep(1)
             time_slot = time_slot - 1
         if time_slot == 0:
