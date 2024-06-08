@@ -18,18 +18,18 @@ class Relay:
         print("Data for relay {} off is: {}".format(self.id, self.relay_OFF))
 
     def turnRelayOn(self, ser):
-        serial_read_data(ser)
+        data = serial_read_data(ser)
         ser.write(self.relay_ON)
         print("On: {}".format(self.relay_ON))
         time.sleep(1)
-        return serial_read_data(ser)
+        return data
 
     def turnRelayOff(self, ser):
-        serial_read_data(ser)
+        data = serial_read_data(ser)
         ser.write(self.relay_OFF)
         print("Off: {}".format(self.relay_OFF))
         time.sleep(1)
-        return serial_read_data(ser)
+        return data
 
 
 class MixerRelay(Relay):
