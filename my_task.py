@@ -18,14 +18,12 @@ class Relay_Task:
     def Relay_Execute(self, ser, timer, relay):
         if timer == 0:
             return
-        relay.turnRelayOn(ser)
         time_slot = 5
         # if data has error, resend after 1s. After 5 times, notice error to user
         while time_slot > 0:
-            if serial_read_data(ser) == 255:
+            if relay.turnRelayOn(ser) == 255:
                 break
             time.sleep(1)
-            relay.turnRelayOn(ser)
             time_slot = time_slot - 1
         if time_slot == 0:
             self.isRelayActive = False
@@ -33,14 +31,12 @@ class Relay_Task:
 
         time.sleep(timer)
 
-        relay.turnRelayOff(ser)
         time_slot = 5
         # if data has error, resend after 1s. After 5 times, notice error to user
         while time_slot > 0:
-            if serial_read_data(ser) == 0:
+            if relay.turnRelayOff(ser) == 0:
                 break
             time.sleep(1)
-            relay.turnRelayOff(ser)
             time_slot = time_slot - 1
         if time_slot == 0:
             self.isRelayActive = False
