@@ -20,10 +20,7 @@ class Relay_Task:
             return
         time_slot = 5
         # if data has error, resend after 1s. After 5 times, notice error to user
-        while time_slot > 0:
-            if relay.turnRelayOn(ser) == 255:
-                print("Relay is turn on")
-                break
+        while (time_slot > 0) and (relay.turnRelayOn(ser) != 255):
             time.sleep(1)
             time_slot = time_slot - 1
         if time_slot == 0:
@@ -34,10 +31,7 @@ class Relay_Task:
 
         time_slot = 5
         # if data has error, resend after 1s. After 5 times, notice error to user
-        while time_slot > 0:
-            if relay.turnRelayOff(ser) == 0:
-                print("Relay is turn off")
-                break
+        while (time_slot > 0) and (relay.turnRelayOff(ser) != 0):
             time.sleep(1)
             time_slot = time_slot - 1
         if time_slot == 0:
