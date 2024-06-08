@@ -23,6 +23,7 @@ class Relay_Task:
         # if data has error, resend after 1s. After 5 times, notice error to user
         while time_slot > 0:
             data = relay.turnRelayOn(ser)
+            print("Data is", data)
             if data == 255:
                 break
             time.sleep(1)
@@ -37,6 +38,7 @@ class Relay_Task:
         # if data has error, resend after 1s. After 5 times, notice error to user
         while time_slot > 0:
             data = relay.turnRelayOn(ser)
+            print("Data is", data)
             if data == 0:
                 break
             time.sleep(1)
