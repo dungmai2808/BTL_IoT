@@ -22,6 +22,7 @@ class Relay_Task:
         # if data has error, resend after 1s. After 5 times, notice error to user
         while time_slot > 0:
             if relay.turnRelayOn(ser) == 255:
+                print("Relay is turn on")
                 break
             time.sleep(1)
             time_slot = time_slot - 1
@@ -35,6 +36,7 @@ class Relay_Task:
         # if data has error, resend after 1s. After 5 times, notice error to user
         while time_slot > 0:
             if relay.turnRelayOff(ser) == 0:
+                print("Relay is turn off")
                 break
             time.sleep(1)
             time_slot = time_slot - 1
@@ -130,7 +132,7 @@ class Sensor_Task:
         temp = 0
         counter = 10
         while counter > 0 and self.isSensorActive:
-            temp = temp + int(self.Sensor_Execute(ser, "temp"))
+            temp = temp + self.Sensor_Execute(ser, "temp")
             counter = counter - 1
             time.sleep(1)
         if self.isSensorActive == False:
@@ -140,7 +142,7 @@ class Sensor_Task:
         humid = 0
         counter = 10
         while counter > 0 and self.isSensorActive:
-            humid = humid + int(self.Sensor_Execute(ser, "humid"))
+            humid = humid + self.Sensor_Execute(ser, "humid")
             counter = counter - 1
             time.sleep(1)
         if self.isSensorActive == False:
