@@ -105,6 +105,7 @@ class Sensor_Task:
             # if data has error, resend after 1s. After 5 times, notice error to user
             while time_slot > 0:
                 data = self.sensor.getTemp(ser) / 100
+                print("Temp is", data)
                 if data >= 0 and data <= 100:
                     return data
                 time.sleep(1)
@@ -119,6 +120,7 @@ class Sensor_Task:
             # if data has error, resend after 1s. After 5 times, notice error to user
             while time_slot > 0:
                 data = self.sensor.getHumid(ser) / 100
+                print("Humid is", data)
                 if data >= 0 and data <= 100:
                     return data
                 time.sleep(1)
