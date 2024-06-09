@@ -108,25 +108,28 @@ while True:
 
     elif isRelayActive:
         currentNode = waitingList.findFirst("relay")
-        if datetime.now() < currentNode.startTime:
+        if currentNode is None:
             time.sleep(1)
         else:
-            isRelayActive = currentNode.task.Task_Execute(ser)
-            if isRelayActive:
-                print("{}: {} is done".format(datetime.now(), currentNode.name))
-                currentNode.cycle = currentNode.cycle - 1
-                # if relay task do all its cycle
-                if currentNode.cycle <= 0:
-                    currentNode.startTime = currentNode.task.startTime + timedelta(days=1)
-                    currentNode.cycle = currentNode.task.cycle
-                else:
-                    currentNode.startTime = datetime.now()
-                # if current node was not deleted, delete and add again
-                if waitingList.isAvailable(currentNode.name):
-                    waitingList.delete(currentNode.name)
-                    currentNode.next = None
-                    waitingList.add(currentNode)  
-                    waitingList.print_list()
+            if datetime.now() < currentNode.startTime:
+                time.sleep(1)
+            else:
+                isRelayActive = currentNode.task.Task_Execute(ser)
+                if isRelayActive:
+                    print("{}: {} is done".format(datetime.now(), currentNode.name))
+                    currentNode.cycle = currentNode.cycle - 1
+                    # if relay task do all its cycle
+                    if currentNode.cycle <= 0:
+                        currentNode.startTime = currentNode.task.startTime + timedelta(days=1)
+                        currentNode.cycle = currentNode.task.cycle
+                    else:
+                        currentNode.startTime = datetime.now()
+                    # if current node was not deleted, delete and add again
+                    if waitingList.isAvailable(currentNode.name):
+                        waitingList.delete(currentNode.name)
+                        currentNode.next = None
+                        waitingList.add(currentNode)  
+                        waitingList.print_list()
 
     else: # isSensorActive == True
         if datetime.now() < next_sensor_execute:
