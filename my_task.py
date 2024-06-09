@@ -48,6 +48,7 @@ class Relay_Task:
         self.isRelayActive = True #delete when execute
 
     def Task_Execute(self, ser):
+        self.isRelayActive = True
         self.state = 1
         while self.state != 0:
             if self.state == 1:
@@ -95,7 +96,7 @@ class Relay_Task:
 class Sensor_Task:
     def __init__(self):
         self.sensor = Sensor(10)
-        self.isSensorActive = False
+        self.isSensorActive = True
 
     def Sensor_Execute(self, ser, type):
         if(type == "temp"):
@@ -132,6 +133,7 @@ class Sensor_Task:
             return 0
 
     def Task_Execute(self, ser):
+        self.isSensorActive = True
         temp = 0
         counter = 10
         while counter > 0 and self.isSensorActive:
