@@ -124,8 +124,8 @@ while True:
                 # if current node was not deleted, delete and add again
                 if waitingList.isAvailable(currentNode.name):
                     waitingList.delete(currentNode.name)
-                    waitingList.add(currentNode)  
                     currentNode.next = None
+                    waitingList.add(currentNode)  
                     waitingList.print_list()
 
     else: # isSensorActive == True
