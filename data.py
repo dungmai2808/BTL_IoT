@@ -70,6 +70,7 @@ class LinkedList:
         while currentSch:
             if currentSch.type == type:
                 return currentSch
+            currentSch = currentSch.next
         return None
 
     def delete(self, nameSch):
