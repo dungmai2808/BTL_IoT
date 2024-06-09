@@ -67,7 +67,7 @@ isSensorActive = True
 waitingList = LinkedList()
 sensorNode = SNodeScheduler("Scheduler 0", datetime.now() + timedelta(seconds=10))
 waitingList.add(sensorNode)
-next_sensor_execute = datetime.now() + timedelta(seconds=10)
+next_sensor_execute = datetime.now() + timedelta(seconds=5)
 
 while True:
     if not isSensorActive and not isRelayActive:
