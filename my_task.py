@@ -26,7 +26,7 @@ class Relay_Task:
             print("Data is", data)
             if data == 255:
                 break
-            time.sleep(1)
+            time.sleep(2)
             time_slot = time_slot - 1
         if time_slot == 0:
             self.isRelayActive = False
@@ -41,7 +41,7 @@ class Relay_Task:
             print("Data is", data)
             if data == 0:
                 break
-            time.sleep(1)
+            time.sleep(2)
             time_slot = time_slot - 1
         if time_slot == 0:
             self.isRelayActive = False
