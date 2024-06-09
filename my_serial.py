@@ -27,6 +27,8 @@ def serial_read_data(ser):
             print(value)
             return value
         else:
+            print("Error: Not enough data received")
             return -1
     else:
+        print("Error: No data available to read")
         return -1

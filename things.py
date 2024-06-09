@@ -19,13 +19,13 @@ class Relay:
 
     def turnRelayOn(self, ser):
         ser.write(self.relay_ON)
-        time.sleep(1)
+        time.sleep(2)
         print("On: {}".format(self.relay_ON))
         return serial_read_data(ser)
 
     def turnRelayOff(self, ser):
         ser.write(self.relay_OFF)
-        time.sleep(1)
+        time.sleep(2)
         print("Off: {}".format(self.relay_OFF))
         return serial_read_data(ser)
 
