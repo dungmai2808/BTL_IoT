@@ -26,8 +26,6 @@ def serial_read_data(ser):
             value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
             return value
         else:
-            print("Error: Not enough data received")
             return -1
     else:
-        print("Error: No data available to read")
         return -1
