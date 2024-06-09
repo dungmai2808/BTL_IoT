@@ -95,7 +95,7 @@ class Relay_Task:
 class Sensor_Task:
     def __init__(self):
         self.sensor = Sensor(10)
-        self.isSensorActive = True
+        self.isSensorActive = False
 
     def Sensor_Execute(self, ser, type):
         if(type == "temp"):
