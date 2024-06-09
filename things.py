@@ -19,6 +19,7 @@ class Relay:
         print("Data for relay {} off is: {}".format(self.id, self.relay_OFF))
 
     def turnRelayOn(self, ser):
+        serial_read_data(ser)
         ser.write(self.relay_ON)
         time.sleep(1)
         print("On: {}".format(self.relay_ON))
@@ -26,6 +27,7 @@ class Relay:
         print(f"Returned Value: {self.return_data}")
 
     def turnRelayOff(self, ser):
+        serial_read_data(ser)
         ser.write(self.relay_OFF)
         time.sleep(1)
         print("Off: {}".format(self.relay_OFF))
@@ -75,12 +77,14 @@ class Sensor:
         print("Data for humid sensor {} is: {}".format(self.id, self.soil_humid))
 
     def getTemp(self, ser):
+        serial_read_data(ser)
         ser.write(self.soil_temp)
         print(self.soil_temp)
         time.sleep(1)
         return serial_read_data(ser)
 
     def getHumid(self, ser):
+        serial_read_data(ser)
         ser.write(self.soil_humid)
         print(self.soil_humid)
         time.sleep(1)
