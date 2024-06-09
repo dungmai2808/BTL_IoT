@@ -12,6 +12,7 @@ class Relay:
         self.relay_ON[0] = self.relay_OFF[0] = id
         add_crc16_modbus(self.relay_ON)
         add_crc16_modbus(self.relay_OFF)
+        self.return_data = -1
 
     def data_format(self):
         print("Data for relay {} on is: {}".format(self.id, self.relay_ON))
@@ -21,17 +22,15 @@ class Relay:
         ser.write(self.relay_ON)
         time.sleep(1)
         print("On: {}".format(self.relay_ON))
-        value = serial_read_data(ser)
-        print(f"Returned Value: {value}")
-        return value
+        self.return_data = serial_read_data(ser)
+        print(f"Returned Value: {self.return_data}")
 
     def turnRelayOff(self, ser):
         ser.write(self.relay_OFF)
         time.sleep(1)
         print("Off: {}".format(self.relay_OFF))
-        value = serial_read_data(ser)
-        print(f"Returned Value: {value}")
-        return value
+        self.return_data = serial_read_data(ser)
+        print(f"Returned Value: {self.return_data}")
 
 
 class MixerRelay(Relay):
