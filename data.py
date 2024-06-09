@@ -60,6 +60,7 @@ class LinkedList:
         while currentSch:
             if currentSch.name == nameSch:
                 return True
+            currentSch = currentSch.next
         return False
     
     def findFirst(self, type):
