@@ -21,13 +21,17 @@ class Relay:
         ser.write(self.relay_ON)
         time.sleep(1)
         print("On: {}".format(self.relay_ON))
-        return serial_read_data(ser)
+        value = serial_read_data(ser)
+        print(f"Returned Value: {value}")
+        return value
 
     def turnRelayOff(self, ser):
         ser.write(self.relay_OFF)
         time.sleep(1)
         print("Off: {}".format(self.relay_OFF))
-        return serial_read_data(ser)
+        value = serial_read_data(ser)
+        print(f"Returned Value: {value}")
+        return value
 
 
 class MixerRelay(Relay):
