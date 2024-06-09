@@ -25,7 +25,7 @@ class Relay_Task:
             relay.turnRelayOn(ser)
             if relay.return_data == 255:
                 break
-            time.sleep(2)
+            time.sleep(1)
             time_slot = time_slot - 1
         if time_slot == 0:
             self.isRelayActive = False
@@ -39,7 +39,7 @@ class Relay_Task:
             relay.turnRelayOff(ser)
             if relay.return_data == 0:
                 break
-            time.sleep(2)
+            time.sleep(1)
             time_slot = time_slot - 1
         if time_slot == 0:
             self.isRelayActive = False
