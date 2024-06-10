@@ -45,7 +45,6 @@ class Relay_Task:
             self.isRelayActive = False
             print("Maybe relay {} is not turn off, Please check....".format(relay.id))
 
-        self.isRelayActive = True #delete when execute
 
     def Task_Execute(self, ser):
         self.isRelayActive = True
@@ -96,6 +95,8 @@ class Relay_Task:
 class Sensor_Task:
     def __init__(self):
         self.sensor = Sensor(10)
+        self.temp = 0
+        self.humid = 0
         self.isSensorActive = True
 
     def Sensor_Execute(self, ser, type):
@@ -134,25 +135,27 @@ class Sensor_Task:
 
     def Task_Execute(self, ser):
         self.isSensorActive = True
-        temp = 0
+        self.temp = 0
         counter = 10
         while counter > 0 and self.isSensorActive:
-            temp = temp + self.Sensor_Execute(ser, "temp")
+            self.temp = self.temp + self.Sensor_Execute(ser, "temp")
             counter = counter - 1
             time.sleep(1)
         if self.isSensorActive == False:
             return self.isSensorActive
-        print("Temperature is:", temp/10)
+        self.temp = self.temp/10
+        print("Temperature is:", self.temp)
 
-        humid = 0
+        self.humid = 0
         counter = 10
         while counter > 0 and self.isSensorActive:
-            humid = humid + self.Sensor_Execute(ser, "humid")
+            self.humid = self.humid + self.Sensor_Execute(ser, "humid")
             counter = counter - 1
             time.sleep(1)
         if self.isSensorActive == False:
             return self.isSensorActive
-        print("Humidity is:", humid/10)
+        self.humid = self.humid / 10
+        print("Humidity is:", self.humid)
         return self.isSensorActive
 
 

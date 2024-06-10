@@ -4,8 +4,8 @@ import time
 import json
 from data import *
 
-AIO_FEED_ID = ["scheduler", "deletesch", "broken", "sensor"]
-AIO_USERNAME = "Vy2003"
+AIO_FEED_ID = ["schedulers", "deletesch", "broken", "cambien1", "cambien3", "schedulerdone"]
+AIO_USERNAME = "datnguyenvan"
 AIO_KEY = ""
 
 def connected(client):
@@ -24,7 +24,7 @@ def message(client , feed_id , payload):
     global isRelayActive, isSensorActive
 
     print("Nhan du lieu: " + payload)
-    if feed_id == "scheduler": #add scheduler
+    if feed_id == "schedulers": #add scheduler
         temp_data = json.loads(payload)
         nodeSch = RNodeScheduler(temp_data)
         waitingList.add(nodeSch)
@@ -37,11 +37,6 @@ def message(client , feed_id , payload):
             isRelayActive = False
         else:
             isRelayActive = True
-    if feed_id == "sensor":
-        if payload != "0":
-            isSensorActive = False
-        else:
-            isSensorActive = True
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
 client.on_connect = connected
@@ -52,8 +47,6 @@ client.connect()
 client.loop_background()
 
 client.publish("broken", 0)  #hư thì gửi khác 0
-client.publish("sensor", 0)  #hư thì gửi 1
-
 
 try:
     ser = serial.Serial(port=getPort(), baudrate=9600)
@@ -65,7 +58,7 @@ except:
 isRelayActive = True
 isSensorActive = True
 waitingList = LinkedList()
-sensorNode = SNodeScheduler("Scheduler 0", datetime.now() + timedelta(seconds=10))
+sensorNode = SNodeScheduler("Scheduler 0", datetime.now() + timedelta(seconds=5))
 waitingList.add(sensorNode)
 next_sensor_execute = datetime.now() + timedelta(seconds=5)
 
@@ -82,14 +75,18 @@ while True:
             currentNode = waitingList.head
             if currentNode.type == "relay":
                 isRelayActive = currentNode.task.Task_Execute(ser)
+                if isRelayActive is False:
+                    client.publish("broken", 1)
             elif currentNode.type == "sensor":
                 isSensorActive = currentNode.task.Task_Execute(ser)
 
             if currentNode.type == "relay" and isRelayActive:
-                print("{}: {} is done".format(datetime.now(), currentNode.name))
+                print("{}: {} is done in 1 cycle".format(datetime.now(), currentNode.name))
                 currentNode.cycle = currentNode.cycle - 1
                 # if relay task do all its cycle
                 if currentNode.cycle <= 0:
+                    client.publish("schedulerdone", datetime.now().strftime("%H:%M") + "-" + currentNode.name)
+                    print("{}: {} is done".format(datetime.now(), currentNode.name))
                     currentNode.startTime = currentNode.task.startTime + timedelta(days=1)
                     currentNode.cycle = currentNode.task.cycle
                 else:
@@ -100,6 +97,8 @@ while True:
                     currentNode.next = None
                     waitingList.add(currentNode)
             elif currentNode.type == "sensor" and isSensorActive:
+                client.publish("cambien1", currentNode.task.temp)
+                client.publish("cambien3", currentNode.task.humid)
                 next_sensor_execute = currentNode.startTime = currentNode.startTime + timedelta(minutes=2)
                 waitingList.delete(currentNode.name)
                 currentNode.next = None
@@ -115,11 +114,15 @@ while True:
                 time.sleep(1)
             else:
                 isRelayActive = currentNode.task.Task_Execute(ser)
-                if isRelayActive:
-                    print("{}: {} is done".format(datetime.now(), currentNode.name))
+                if isRelayActive is False:
+                    client.publish("broken", 1)
+                else:
+                    print("{}: {} is done in 1 cycle".format(datetime.now(), currentNode.name))
                     currentNode.cycle = currentNode.cycle - 1
                     # if relay task do all its cycle
                     if currentNode.cycle <= 0:
+                        client.publish("schedulerdone", datetime.now().strftime("%H:%M") + "-" + currentNode.name)
+                        print("{}: {} is done".format(datetime.now(), currentNode.name))
                         currentNode.startTime = currentNode.task.startTime + timedelta(days=1)
                         currentNode.cycle = currentNode.task.cycle
                     else:
@@ -138,6 +141,8 @@ while True:
             currentNode = waitingList.findFirst("sensor")
             isSensorActive = currentNode.task.Task_Execute(ser)
             if isSensorActive:
+                client.publish("cambien1", currentNode.task.temp)
+                client.publish("cambien3", currentNode.task.humid)
                 next_sensor_execute = currentNode.startTime = currentNode.startTime + timedelta(minutes=2)
                 waitingList.delete(currentNode.name)
                 currentNode.next = None
