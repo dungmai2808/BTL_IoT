@@ -143,7 +143,7 @@ class Sensor_Task:
             time.sleep(1)
         if self.isSensorActive == False:
             return self.isSensorActive
-        self.temp = self.temp/10
+        self.temp = round(self.temp / 10, 2)
         print("Temperature is:", self.temp)
 
         self.humid = 0
@@ -154,7 +154,7 @@ class Sensor_Task:
             time.sleep(1)
         if self.isSensorActive == False:
             return self.isSensorActive
-        self.humid = self.humid / 10
+        self.humid = round(self.humid / 10, 2)
         print("Humidity is:", self.humid)
         return self.isSensorActive
 
